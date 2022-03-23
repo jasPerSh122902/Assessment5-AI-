@@ -2,7 +2,9 @@
 #include "Actor.h"
 #include "SeekComponent.h"
 #include "FleeComponent.h"
+#include "WanderComponent.h"
 #include "Transform2D.h"
+#include <iostream>
 
 void StateMachineComponent::start()
 {
@@ -11,38 +13,44 @@ void StateMachineComponent::start()
 	m_seekComponent = getOwner()->getComponent<SeekComponent>();
 	m_seekForce = m_seekComponent->getSteeringForce();
 
-	m_fleeComponent = getOwner()->getComponent<FleeComponent>();
-	m_fleeingForce = m_fleeComponent->getSteeringForce();
+	m_wanderComponent = getOwner()->getComponent<WanderComponent>();
+	m_wanderForce = m_wanderComponent->getSteeringForce();
 
-	m_currentState = SEEK;
+	m_currentState = Wander;
 }
 
 void StateMachineComponent::update(float deltaTime)
 {
 	Component::update(deltaTime);
-
+	//get the world position of the target
 	MathLibrary::Vector2 targetPos = m_seekComponent->getTarget()->getTransform()->getWorldPosition();
+	//gets the world position of the owner
 	MathLibrary::Vector2 ownerPos = getOwner()->getTransform()->getWorldPosition();
+	//is the magnitude of the world position of the enemy and player
 	float distanceFromTarget = (targetPos - ownerPos).getMagnitude();
-
+	//is the cone
 	MathLibrary::Vector2 coneFlee = (targetPos - ownerPos).getNormalized();
+	//range that is the distnace from the target and the seek range
 	bool targetInRange = distanceFromTarget <= m_seekRange;
+	//this is going to make a cone in front of the enemy 
 
 	switch (m_currentState)
 	{
 	case SEEK:
 		m_seekComponent->setSteeringForce(m_seekForce);
-		m_fleeComponent->setSteeringForce(0);
-
-	if (distanceFromTarget < 100)
-			setCurrentState(FLEE);
+		m_wanderComponent->setSteeringForce(0);
+		//std::cout << "I am here" << std::endl;
+		//std::cout << getOwner()->getTransform()->getForward().x <<"\\" << getOwner()->getTransform()->getForward().y << std::endl;
+	if (distanceFromTarget >= 300)
+			setCurrentState(Wander);
 		break;
-	case FLEE:
+	case Wander:
 		m_seekComponent->setSteeringForce(0);
-		m_fleeComponent->setSteeringForce(m_fleeingForce);
-
-		if (distanceFromTarget >= 150)
+		m_wanderComponent->setSteeringForce(m_wanderForce);
+		//std::cout << "I am here to wander" << std::endl;
+		if (distanceFromTarget <= 250 && acos(MathLibrary::Vector2::dotProduct(coneFlee, getOwner()->getTransform()->getForward())) < 1)
 			setCurrentState(SEEK);
 		break;
+
 	}
 }

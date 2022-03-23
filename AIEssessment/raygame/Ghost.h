@@ -4,8 +4,8 @@
 class Maze;
 class PathfindComponent;
 class StateMachineComponent;
-class FleeComponent;
 class SeekComponent;
+class WanderComponent;
 
 class Ghost : public Agent
 {
@@ -35,7 +35,7 @@ public:
 private:
 	StateMachineComponent* m_stateMachine;
 	PathfindComponent* m_pathfindComponent;
-	FleeComponent* m_fleeComponent;
+	WanderComponent* m_wanderComponent;
 	SeekComponent* m_seekComponent;
 	Maze* m_maze;
 

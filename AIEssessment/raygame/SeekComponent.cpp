@@ -8,7 +8,6 @@ MathLibrary::Vector2 SeekComponent::calculateForce()
 {
 	if (!getTarget())
 		return { 0,0 };
-
 	MathLibrary::Vector2 directionToTarget = getTarget()->getTransform()->getWorldPosition()
 		- getOwner()->getTransform()->getWorldPosition();
 

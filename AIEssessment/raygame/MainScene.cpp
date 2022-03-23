@@ -22,7 +22,7 @@ void MainScene::start()
 	agent->addComponent(wanderComponent);
 
 	SeekComponent* seekComponent = new SeekComponent();
-	seekComponent->setSteeringForce(50);
+	seekComponent->setSteeringForce(500);
 	seekComponent->setTarget(player);
 	agent->addComponent(seekComponent);
 	agent->addComponent<StateMachineComponent>();
