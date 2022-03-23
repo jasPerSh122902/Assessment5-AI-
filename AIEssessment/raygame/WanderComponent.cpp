@@ -3,12 +3,13 @@
 #include "Actor.h"
 #include "Agent.h"
 #include "MoveComponent.h"
+#include "NodeGraph.h"
 #include <time.h>
 
 WanderComponent::WanderComponent(float circleDistance, float circleRadius, float wanderForce) : SteeringComponent(nullptr, wanderForce)
 {
-	m_circleDistance = circleDistance;
-	m_circleRadius = circleRadius;
+	m_distance = circleDistance;
+	m_radius = circleRadius;
 	srand(time(NULL));
 }
 
@@ -16,24 +17,27 @@ MathLibrary::Vector2 WanderComponent::calculateForce()
 {
 	if (getSteeringForce() == 0)
 		return { 0,0 };
-
-	//Find the agents position and heading 
-	MathLibrary::Vector2 ownerPosition = getOwner()->getTransform()->getWorldPosition();
-	MathLibrary::Vector2 heading = getAgent()->getMoveComponent()->getVelocity().getNormalized();
+	//finds the agnets poitin and heading
+	MathLibrary::Vector2 ownerPos = getOwner()->getTransform()->getWorldPosition();//gets the worldposition for the owner or agent
+	MathLibrary::Vector2 heading = (getAgent()->getComponent<MoveComponent>()->getVelocity());//gets the agnets velocity
 
 	//Find the circles position in front of the agent
-	m_circlePos = ownerPosition + (heading * m_circleDistance);
-
-	//Find a random vector in the circle
-	float randNum = (rand() % 201);
-	MathLibrary::Vector2 randDirection = MathLibrary::Vector2{ (float)cos(randNum), (float)sin(randNum) } * m_circleRadius;
-
-	//Add the random vector to the circle position to get a new random point on the circle
+	m_circlePos = ownerPos + (heading * m_distance);
+	//Find a random vector on the circle and scale it up by the radius
+	MathLibrary::Vector2 randDirection = MathLibrary::Vector2{ getTheRand(), getTheRand() }.normalize() * m_radius;
+	//finds the target by adding the random point and circle position
 	m_target = randDirection + m_circlePos;
+	//seek to the random point
+	MathLibrary::Vector2 desiredVelocity = MathLibrary::Vector2::normalize(m_target - ownerPos) * getSteeringForce();
+	MathLibrary::Vector2 force = desiredVelocity - getAgent()->getComponent<MoveComponent>()->getVelocity();
+	if(NodeGraph::getcurrentNode().walkable == true)
+		return force;
+}
 
-	//Seek to the random point
-	MathLibrary::Vector2 desiredVelocity = MathLibrary::Vector2::normalize(m_target - ownerPosition) * getSteeringForce();
-	MathLibrary::Vector2 force = desiredVelocity - getAgent()->getMoveComponent()->getVelocity();
-
-	return force;
+float WanderComponent::getTheRand()
+{
+	float m_rand;
+	//makes a random number
+	m_rand = ((rand() % 201) - 100);
+	return m_rand;
 }

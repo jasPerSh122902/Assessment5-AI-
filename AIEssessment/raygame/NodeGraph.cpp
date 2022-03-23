@@ -54,6 +54,7 @@ void sortFScore(DynamicArray<NodeGraph::Node*>& nodes)
 /// <returns> reconstructPath(start, goal) this function is to make the path</returns>
 DynamicArray<NodeGraph::Node*> NodeGraph::findPath(Node* start, Node* goal)
 {
+	setcurrentNode(start);
 	//makes all of the graph scores go back to zero
 	resetGraphScore(start);
 	float hScore = 0;
@@ -83,7 +84,6 @@ DynamicArray<NodeGraph::Node*> NodeGraph::findPath(Node* start, Node* goal)
 		//gos through the openlists edges 
 		for (int n = 0; n < m_currentNode->edges.getLength(); n++) 
 		{
-			NodeGraph::Node* targetNode = m_currentNode->edges[0].target;
 			//if the currentnode is not walkable
 			if (m_currentNode->walkable == false)
 				continue;//do not move
@@ -110,7 +110,7 @@ DynamicArray<NodeGraph::Node*> NodeGraph::findPath(Node* start, Node* goal)
 				m_currentNode->edges[n].target->previous = m_currentNode; 
 			}
 			//Adds the node to the open list if it is not already in it
-			if (!openList.contains(targetNode->edges[n].target))
+			if (!openList.contains(m_currentNode->edges[n].target))
 			{
 				//adds the target node to the openlist
 				openList.addItem(m_currentNode->edges[n].target);
@@ -179,6 +179,7 @@ void NodeGraph::drawConnectedNodes(Node* node, DynamicArray<Node*>& drawnList)
 		}
 	}
 }
+
 
 void NodeGraph::resetGraphScore(Node * start)
 {

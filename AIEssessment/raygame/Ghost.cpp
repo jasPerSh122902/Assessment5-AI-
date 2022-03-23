@@ -33,7 +33,7 @@ void Ghost::start()
 	
 	m_seekComponent = addComponent<SeekComponent>();
 	m_seekComponent->setTarget(m_target);
-	m_wanderComponent = new WanderComponent(100,50,100);
+	m_wanderComponent = new WanderComponent(1000,500,100);
 	addComponent(m_wanderComponent);
 
 	m_stateMachine = addComponent<StateMachineComponent>();

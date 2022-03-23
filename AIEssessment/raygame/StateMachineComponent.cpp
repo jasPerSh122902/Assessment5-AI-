@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include "SeekComponent.h"
 #include "FleeComponent.h"
+#include "PathfindComponent.h"
 #include "WanderComponent.h"
 #include "Transform2D.h"
 #include <iostream>
@@ -15,6 +16,9 @@ void StateMachineComponent::start()
 
 	m_wanderComponent = getOwner()->getComponent<WanderComponent>();
 	m_wanderForce = m_wanderComponent->getSteeringForce();
+
+	m_pathFind = getOwner()->getComponent<PathfindComponent>();
+	m_pathFind->setEnabled(0);
 
 	m_currentState = Wander;
 }
@@ -37,17 +41,19 @@ void StateMachineComponent::update(float deltaTime)
 	switch (m_currentState)
 	{
 	case SEEK:
+		m_pathFind->setEnabled(1);
 		m_seekComponent->setSteeringForce(m_seekForce);
 		m_wanderComponent->setSteeringForce(0);
-		//std::cout << "I am here" << std::endl;
+		std::cout << "I am here" << std::endl;
 		//std::cout << getOwner()->getTransform()->getForward().x <<"\\" << getOwner()->getTransform()->getForward().y << std::endl;
 	if (distanceFromTarget >= 300)
 			setCurrentState(Wander);
 		break;
 	case Wander:
+		m_pathFind->setEnabled(0);
 		m_seekComponent->setSteeringForce(0);
 		m_wanderComponent->setSteeringForce(m_wanderForce);
-		//std::cout << "I am here to wander" << std::endl;
+		std::cout << "I am here to wander" << std::endl;
 		if (distanceFromTarget <= 250 && acos(MathLibrary::Vector2::dotProduct(coneFlee, getOwner()->getTransform()->getForward())) < 1)
 			setCurrentState(SEEK);
 		break;

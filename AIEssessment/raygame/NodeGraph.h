@@ -35,7 +35,10 @@ namespace NodeGraph
 	void drawNode(Node* node, float size = 14);
 
 	void drawConnectedNodes(Node* node, DynamicArray<Node*>& drawnList);
-
+	Node* getcurrentNode() { return m_currentNode; }
+	void setcurrentNode(Node* node) { m_currentNode = node; }
 	void resetGraphScore(Node* start);
 	void resetConnectedNodes(Node* node, DynamicArray<Node*>& resetList);
+
+	Node* m_currentNode;
 }
