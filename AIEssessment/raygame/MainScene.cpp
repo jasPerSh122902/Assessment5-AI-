@@ -10,6 +10,7 @@
 
 void MainScene::start()
 {
+	Scene::start();
 	Player* player = new Player(200, 50, "Player", 100, 50);
 	player->getTransform()->setScale({ 50,50 });
 	player->addComponent(new SpriteComponent("Images/player.png"));
@@ -29,4 +30,14 @@ void MainScene::start()
 
 	addActor(player);
 	addActor(agent);
+}
+
+void MainScene::draw()
+{
+	Scene::draw();
+}
+
+void MainScene::update(float deltaTime)
+{
+	Scene::update(deltaTime);
 }

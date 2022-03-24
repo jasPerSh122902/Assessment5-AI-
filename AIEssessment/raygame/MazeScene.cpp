@@ -3,6 +3,9 @@
 #include "Wall.h"
 #include "Ghost.h"
 #include "Transform2D.h"
+#include "MainScene.h"
+#include "raylib.h"
+#include "Scene.h"
 
 Maze::TileKey _ = Maze::TileKey::OPEN;
 Maze::TileKey w = Maze::TileKey::WALL;
@@ -26,7 +29,7 @@ Maze::Maze()
 		{ w, _, w, w, _, _, _, w, _, _, _, w, _, w, w, _, _, _, _, _, w, w, _, _, _, _, _, w },
 		{ w, _, _, _, _, w, _, w, _, w, _, _, _, _, _, _, w, w, _, w, _, _, _, w, _, _, w, w },
 		{ w, _, _, w, _, w, _, _, _, _, _, _, w, s, w, _, _, _, _, w, _, w, _, _, _, _, _, w },
-		{ w, w, _, _, _, _, _, w, _, w, _, w, g, _, _, _, w, _, _, _, _, w, w, _, w, w, _, w },
+		{ w, w, _, _, _, _, _, w, _, w, _, _, g, _, _, _, w, _, _, _, _, w, w, _, w, w, _, w },
 		{ w, _, _, w, _, w, _, _, _, w, _, _, w, _, w, _, _, w, w, _, w, _, _, _, w, _, _, w },
 		{ w, _, w, w, _, _, _, _, w, _, _, w, _, _, _, w, _, _, _, _, _, w, w, _, _, w, _, w },
 		{ w, _, _, w, _, w, w, s, w, w, _, w, s, w, w, w, _, w, w, w, _, _, _, _, _, w, _, w },
@@ -99,6 +102,7 @@ Maze::Tile Maze::createTile(int x, int y, TileKey key)
 	case TileKey::WALL:
 		tile.cost = 100.0f;
 		tile.actor = new Wall(position.x, position.y);
+		tile.node->color = 0x00FFFFF;
 		tile.node->walkable = false;
 		addActor(tile.actor);
 		break;

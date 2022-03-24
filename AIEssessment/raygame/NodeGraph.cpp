@@ -54,12 +54,13 @@ void sortFScore(DynamicArray<NodeGraph::Node*>& nodes)
 /// <returns> reconstructPath(start, goal) this function is to make the path</returns>
 DynamicArray<NodeGraph::Node*> NodeGraph::findPath(Node* start, Node* goal)
 {
-	setcurrentNode(start);
+	
 	//makes all of the graph scores go back to zero
 	resetGraphScore(start);
 	float hScore = 0;
 	float gScore = 0;
 	NodeGraph::Node* m_currentNode;
+	
 	///initialization two dynamic Arrays for holding
 	/// <param name="openList">This array or list is the first thing that is checked. Holds nodes that have not been touched</param>
 	/// <param name="closedList">Holds the nodes that have been touched so to preven overlaping</param>
@@ -87,6 +88,7 @@ DynamicArray<NodeGraph::Node*> NodeGraph::findPath(Node* start, Node* goal)
 			//if the currentnode is not walkable
 			if (m_currentNode->walkable == false)
 				continue;//do not move
+				
 			//tries to see if the two list contains the target node
 			if (!closedList.contains(m_currentNode->edges[n].target))
 			{

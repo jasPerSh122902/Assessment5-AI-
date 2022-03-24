@@ -33,7 +33,7 @@ void Ghost::start()
 	
 	m_seekComponent = addComponent<SeekComponent>();
 	m_seekComponent->setTarget(m_target);
-	m_wanderComponent = new WanderComponent(1000,500,100);
+	m_wanderComponent = new WanderComponent(1000,500,10);
 	addComponent(m_wanderComponent);
 
 	m_stateMachine = addComponent<StateMachineComponent>();
@@ -51,6 +51,7 @@ void Ghost::draw()
 
 void Ghost::onCollision(Actor* other)
 {
+	
 	if (Wall* wall = dynamic_cast<Wall*>(other)) {
 		MathLibrary::Vector2 halfTile = { Maze::TILE_SIZE / 2.0f, Maze::TILE_SIZE / 2.0f };
 		MathLibrary::Vector2 position = getTransform()->getWorldPosition();
