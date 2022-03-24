@@ -8,9 +8,8 @@
 #include "WanderComponent.h"
 #include "StateMachineComponent.h"
 
-void MainScene::start()
+MainScene::MainScene()
 {
-	Scene::start();
 	Player* player = new Player(200, 50, "Player", 100, 50);
 	player->getTransform()->setScale({ 50,50 });
 	player->addComponent(new SpriteComponent("Images/player.png"));
@@ -20,9 +19,12 @@ void MainScene::start()
 	agent->addComponent(new SpriteComponent("Images/enemy.png"));
 
 	WanderComponent* wanderComponent = new WanderComponent(1000, 100, 100);
+	wanderComponent->setSteeringForce(100);
+	wanderComponent->setEnabled(1);
 	agent->addComponent(wanderComponent);
 
 	SeekComponent* seekComponent = new SeekComponent();
+	seekComponent->setEnabled(0);
 	seekComponent->setSteeringForce(500);
 	seekComponent->setTarget(player);
 	agent->addComponent(seekComponent);
@@ -30,6 +32,11 @@ void MainScene::start()
 
 	addActor(player);
 	addActor(agent);
+}
+
+void MainScene::start()
+{
+	Scene::start();
 }
 
 void MainScene::draw()

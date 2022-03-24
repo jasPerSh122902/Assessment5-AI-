@@ -15,7 +15,7 @@ void StateMachineComponent::start()
 	m_seekForce = m_seekComponent->getSteeringForce();
 
 	m_wanderComponent = getOwner()->getComponent<WanderComponent>();
-	m_wanderComponent->setEnabled(0);
+	m_wanderForce = m_wanderComponent->getSteeringForce();
 
 	m_pathFind = getOwner()->getComponent<PathfindComponent>();
 	m_pathFind->setEnabled(0);
@@ -43,7 +43,7 @@ void StateMachineComponent::update(float deltaTime)
 	case SEEK:
 		m_pathFind->setEnabled(1);
 		m_seekComponent->setSteeringForce(m_seekForce);
-		m_wanderComponent->setEnabled(0);
+		m_wanderComponent->setSteeringForce(0);
 		std::cout << "I am here" << std::endl;
 		//std::cout << getOwner()->getTransform()->getForward().x <<"\\" << getOwner()->getTransform()->getForward().y << std::endl;
 	if (distanceFromTarget >= 300)
@@ -52,7 +52,7 @@ void StateMachineComponent::update(float deltaTime)
 	case Wander:
 		m_pathFind->setEnabled(0);
 		m_seekComponent->setSteeringForce(0);
-		m_wanderComponent->setEnabled(1);
+		m_wanderComponent->setSteeringForce(m_wanderForce);
 		std::cout << "I am here to wander" << std::endl;
 		if (distanceFromTarget <= 250 && acos(MathLibrary::Vector2::dotProduct(coneFlee, getOwner()->getTransform()->getForward())) < 1)
 			setCurrentState(SEEK);

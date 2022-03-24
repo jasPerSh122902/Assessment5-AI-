@@ -9,6 +9,7 @@
 #include "WanderComponent.h"
 #include "MoveComponent.h"
 #include "SpriteComponent.h"
+#include "AABBCollider.h"
 
 Ghost::Ghost(float x, float y, float maxSpeed, float maxForce, int color, Maze* maze)
 	: Agent(x, y, "Ghost", maxSpeed, maxForce)
@@ -20,6 +21,7 @@ Ghost::Ghost(float x, float y, float maxSpeed, float maxForce, int color, Maze* 
 	m_pathfindComponent->setColor(color);
 	addComponent(m_pathfindComponent);
 	addComponent(new SpriteComponent("Images/enemy.png"));
+	setCollider(new AABBCollider(Maze::TILE_SIZE, Maze::TILE_SIZE, this));
 }
 
 Ghost::~Ghost()
@@ -33,7 +35,7 @@ void Ghost::start()
 	
 	m_seekComponent = addComponent<SeekComponent>();
 	m_seekComponent->setTarget(m_target);
-	m_wanderComponent = new WanderComponent(1000,500,10);
+	m_wanderComponent = new WanderComponent(100,50,10);
 	addComponent(m_wanderComponent);
 
 	m_stateMachine = addComponent<StateMachineComponent>();
@@ -51,7 +53,6 @@ void Ghost::draw()
 
 void Ghost::onCollision(Actor* other)
 {
-	
 	if (Wall* wall = dynamic_cast<Wall*>(other)) {
 		MathLibrary::Vector2 halfTile = { Maze::TILE_SIZE / 2.0f, Maze::TILE_SIZE / 2.0f };
 		MathLibrary::Vector2 position = getTransform()->getWorldPosition();

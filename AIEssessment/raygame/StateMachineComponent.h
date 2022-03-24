@@ -29,7 +29,7 @@ private:
 	PathfindComponent* m_pathFind;
 	float m_seekForce;
 	float m_fleeingForce;
-	bool m_wanderForce;
+	float m_wanderForce;
 	float m_seekRange = 150;
 };
 

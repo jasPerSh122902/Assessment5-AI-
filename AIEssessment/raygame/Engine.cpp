@@ -30,7 +30,6 @@ void Engine::start()
 
 	//Start the scene
 	m_currentSceneIndex = addScene(new Maze());
-	addScene(new MainScene());
 	m_scenes[m_currentSceneIndex]->start();
 }
 
