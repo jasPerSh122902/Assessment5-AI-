@@ -18,16 +18,16 @@ Maze::Maze()
 	//Create the player and this is the map
 	TileKey map[Maze::HEIGHT][Maze::WIDTH] = {
 		{ w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w },
-		{ w, _, _, _, w, _, _, _, _, w, _, w, _, _, _, w, _, _, w, _, w, _, _, _, w, _, w, w },
+		{ w, _, _, g, w, _, _, _, _, w, _, w, _, _, _, w, _, _, w, _, w, _, _, _, w, _, w, w },
 		{ w, _, w, _, _, _, w, _, _, _, _, _, _, w, _, _, w, _, w, w, _, _, w, _, _, _, _, w },
-		{ w, _, _, w, _, w, _, w, _, w, _, w, _, _, w, _, _, _, w, _, w, _, _, _, w, _, w, w },
+		{ w, _, _, w, _, w, _, w, _, w, _, w, _, _, w, _, _, _, w, _, w, _, _, g, w, _, w, w },
 		{ w, w, _, _, _, _, w, w, s, _, w, _, _, _, _, w, w, _, _, _, _, _, _, _, _, _, _, w },
 		{ w, _, _, _, w, _, _, _, _, w, _, _, w, _, _, _, _, _, _, w, _, _, w, _, _, w, _, w },
 		{ w, _, w, _, _, _, w, _, _, w, w, _, _, w, _, w, w, _, w, _, _, _, _, _, _, _, _, w },
 		{ w, _, w, _, w, w, w, _, _, w, _, _, _, w, _, _, _, _, _, _, w, w, _, _, w, _, _, w },
 		{ w, _, _, _, _, w, _, _, _, _, _, w, _, _, _, w, w, _, w, _, _, _, _, w, _, _, w, w },
 		{ w, _, w, w, _, _, _, w, _, _, _, w, _, w, w, _, _, _, _, _, w, w, _, _, _, _, _, w },
-		{ w, _, _, _, _, w, _, w, _, w, _, _, _, _, _, _, w, w, _, w, _, _, _, w, _, _, w, w },
+		{ w, g, _, _, _, w, _, w, _, w, _, _, _, _, _, _, w, w, _, w, _, _, _, w, _, _, w, w },
 		{ w, _, _, w, _, w, _, _, _, _, _, _, w, s, w, _, _, _, _, w, _, w, _, _, _, _, _, w },
 		{ w, w, _, _, _, _, _, w, _, w, _, _, g, _, _, _, w, _, _, _, _, w, w, _, w, w, _, w },
 		{ w, _, _, w, _, w, _, _, _, w, _, _, w, _, w, _, _, w, w, _, w, _, _, _, w, _, _, w },
@@ -45,8 +45,8 @@ Maze::Maze()
 		{ w, _, _, _, _, w, _, w, w, _, _, w, _, _, _, _, _, _, w, _, w, _, _, _, _, _, _, w },
 		{ w, w, _, w, _, _, _, _, _, _, _, _, _, w, _, w, w, _, _, _, _, w, w, _, w, _, w, w },
 		{ w, _, _, _, w, w, _, _, _, w, w, _, _, _, _, _, _, w, _, w, _, _, _, _, _, _, _, w },
-		{ w, _, w, w, _, _, _, w, _, w, _, _, w, w, _, w, _, _, _, _, _, w, _, w, g, w, _, w },
-		{ w, _, _, _, _, w, _, w, w, _, _, w, _, _, _, _, _, w, _, w, _, _, _, _, _, _, _, w },
+		{ w, _, w, w, _, _, _, w, _, w, _, _, w, w, _, w, _, _, _, _, _, w, _, _, g, _, _, w },
+		{ w, g, _, _, _, w, _, w, w, _, _, w, _, _, _, _, _, w, _, w, _, _, _, _, _, _, _, w },
 		{ w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w },
 	};
 
@@ -114,7 +114,7 @@ Maze::Tile Maze::createTile(int x, int y, TileKey key)
 		break;
 	case TileKey::GHOST:
 		tile.cost = 1.0f;
-		Ghost* ghost = new Ghost(position.x, position.y, 250, 250, 0xFF6666FF, this);
+		Ghost* ghost = new Ghost(position.x, position.y, 200, 100, 0xFF6666FF, this);
 		ghost->setTarget(m_player);
 		tile.actor = ghost;
 		addActor(tile.actor);
