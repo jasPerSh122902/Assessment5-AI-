@@ -30,7 +30,7 @@ MathLibrary::Vector2 WanderComponent::calculateForce()
 	//seek to the random point
 	MathLibrary::Vector2 desiredVelocity = MathLibrary::Vector2::normalize(m_target - ownerPos) * getSteeringForce();
 	MathLibrary::Vector2 force = desiredVelocity - getAgent()->getComponent<MoveComponent>()->getVelocity();
-		return force;
+	return force;
 }
 
 float WanderComponent::getTheRand()

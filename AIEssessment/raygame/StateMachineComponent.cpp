@@ -54,6 +54,7 @@ void StateMachineComponent::update(float deltaTime)
 		m_seekComponent->setSteeringForce(0);
 		m_wanderComponent->setSteeringForce(m_wanderForce);
 		std::cout << "I am here to wander" << std::endl;
+		//this is a cone and you can change the number at the end to get a different amount of vishion
 		if (distanceFromTarget <= 250 && acos(MathLibrary::Vector2::dotProduct(coneFlee, getOwner()->getTransform()->getForward())) < 1)
 			setCurrentState(SEEK);
 		break;
