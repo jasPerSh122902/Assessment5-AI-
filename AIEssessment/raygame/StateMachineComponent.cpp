@@ -20,6 +20,7 @@ void StateMachineComponent::start()
 	m_pathFind = getOwner()->getComponent<PathfindComponent>();
 	m_pathFind->setEnabled(0);
 
+	//set the current state to wander state
 	m_currentState = Wander;
 }
 
@@ -33,19 +34,18 @@ void StateMachineComponent::update(float deltaTime)
 	//is the magnitude of the world position of the enemy and player
 	float distanceFromTarget = (targetPos - ownerPos).getMagnitude();
 	//is the cone
-	MathLibrary::Vector2 coneFlee = (targetPos - ownerPos).getNormalized();
+	MathLibrary::Vector2 cone = (targetPos - ownerPos).getNormalized();
 	//range that is the distnace from the target and the seek range
 	bool targetInRange = distanceFromTarget <= m_seekRange;
-	//this is going to make a cone in front of the enemy 
 
 	switch (m_currentState)
 	{
 	case SEEK:
 		//1 is true to enable the pathfinding
 		m_pathFind->setEnabled(1);
-		m_seekComponent->setSteeringForce(m_seekForce);
+		m_seekComponent->setSteeringForce(0);
 		m_wanderComponent->setSteeringForce(0);
-		std::cout << "I am here" << std::endl;
+		//std::cout << "I am here" << std::endl;
 		//std::cout << getOwner()->getTransform()->getForward().x <<"\\" << getOwner()->getTransform()->getForward().y << std::endl;
 	if (distanceFromTarget >= 300)
 			setCurrentState(Wander);
@@ -55,9 +55,9 @@ void StateMachineComponent::update(float deltaTime)
 		m_pathFind->setEnabled(0);
 		m_seekComponent->setSteeringForce(0);
 		m_wanderComponent->setSteeringForce(m_wanderForce);
-		std::cout << "I am here to wander" << std::endl;
+		//std::cout << "I am here to wander" << std::endl;
 		//this is a cone and you can change the number at the end to get a different amount of vishion
-		if (distanceFromTarget <= 250 && acos(MathLibrary::Vector2::dotProduct(coneFlee, getOwner()->getTransform()->getForward())) < 1)
+		if (distanceFromTarget <= 250 && acos(MathLibrary::Vector2::dotProduct(cone, getOwner()->getTransform()->getForward())) < 1)
 			setCurrentState(SEEK);
 		break;
 	}
