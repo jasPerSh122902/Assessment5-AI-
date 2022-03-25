@@ -41,6 +41,7 @@ void StateMachineComponent::update(float deltaTime)
 	switch (m_currentState)
 	{
 	case SEEK:
+		//1 is true to enable the pathfinding
 		m_pathFind->setEnabled(1);
 		m_seekComponent->setSteeringForce(m_seekForce);
 		m_wanderComponent->setSteeringForce(0);
@@ -50,6 +51,7 @@ void StateMachineComponent::update(float deltaTime)
 			setCurrentState(Wander);
 		break;
 	case Wander:
+		//0 is false to disable the path finding
 		m_pathFind->setEnabled(0);
 		m_seekComponent->setSteeringForce(0);
 		m_wanderComponent->setSteeringForce(m_wanderForce);
