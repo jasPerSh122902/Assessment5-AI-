@@ -57,8 +57,7 @@ DynamicArray<NodeGraph::Node*> NodeGraph::findPath(Node* start, Node* goal)
 	
 	//makes all of the graph scores go back to zero
 	resetGraphScore(start);
-	float hScore = 0;
-	float gScore = 0;
+	float hScore, gScore = 0;
 	NodeGraph::Node* m_currentNode;
 	
 	///initialization two dynamic Arrays for holding

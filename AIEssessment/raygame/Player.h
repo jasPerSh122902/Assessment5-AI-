@@ -1,7 +1,6 @@
 #pragma once
 #include "Agent.h"
 class InputComponent;
-class MoveComponent;
 class SpriteComponent;
 
 class Player :

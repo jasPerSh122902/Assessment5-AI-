@@ -3,7 +3,6 @@
 #include "Actor.h"
 #include "Agent.h"
 #include "MoveComponent.h"
-#include "NodeGraph.h"
 #include <time.h>
 
 WanderComponent::WanderComponent(float circleDistance, float circleRadius, float wanderForce) : SteeringComponent(nullptr, wanderForce)

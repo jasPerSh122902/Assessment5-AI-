@@ -1,6 +1,5 @@
 #pragma once
 #include "SteeringComponent.h"
-#include "NodeGraph.h"
 class WanderComponent :
 	public SteeringComponent
 {
